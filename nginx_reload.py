@@ -15,6 +15,8 @@ tutum_auth = os.environ.get('TUTUM_AUTH')
 
 if (not (username and apikey) and not tutum_auth):
     raise EnvironmentError('You should either give full access to this service, or provide TUTUM_USER and TUTUM_APIKEY as env variables')
+if (not service_uuid):
+    raise EnvironmentError('You must set the LB_SERVICE env var.')
 
 service_full = '/api/v1/service/'+service_uuid+'/'
 container_uuid_re = re.compile(r"\/api\/v1\/container\/(.+)\/")
