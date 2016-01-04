@@ -81,17 +81,14 @@ def on_open(ws):
     sys.stdout.write("### stream opened ###\n")
 
 
-header = []
-
-wsUrl = 'wss://stream.tutum.co/v1/events'
 if (tutum_auth):
-    wsUrl += '?auth=' + tutum_auth
+    header = "Authorization" + tutum_auth
 else:
-    header.append("Authorization: Basic %s" % base64.b64encode("%s:%s" % (username, apikey)))
+    header = "Authorization: Basic %s" % base64.b64encode("%s:%s" % (username, apikey))
 
 
-ws = websocket.WebSocketApp(wsUrl,
-                            header=header,
+ws = websocket.WebSocketApp('wss://stream.tutum.co/v1/events',
+                            header=[header],
                             on_message=on_message,
                             on_error=on_error,
                             on_close=on_close,
