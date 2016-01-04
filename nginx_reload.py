@@ -10,7 +10,12 @@ from subprocess import call
 
 service_uuid = os.environ.get('LB_SERVICE')
 username = os.environ.get('TUTUM_USER')
-password = os.environ.get('TUTUM_APIKEY')
+apikey = os.environ.get('TUTUM_APIKEY')
+tutum_auth = os.environ.get('TUTUM_AUTH')
+
+if (not (username and apikey) and not tutum_auth):
+    raise EnvironmentError('You should either give full access to this service, or provide TUTUM_USER and TUTUM_APIKEY as env variables')
+
 service_full = '/api/v1/service/'+service_uuid+'/'
 container_uuid_re = re.compile(r"\/api\/v1\/container\/(.+)\/")
 nginx_config_dir = '/etc/nginx/conf.d/'
@@ -76,9 +81,17 @@ def on_open(ws):
     sys.stdout.write("### stream opened ###\n")
 
 
-header = "Authorization: Basic %s" % base64.b64encode("%s:%s" % (username, password))
-ws = websocket.WebSocketApp('wss://stream.tutum.co/v1/events',
-                            header=[header],
+header = []
+
+wsUrl = 'wss://stream.tutum.co/v1/events'
+if (tutum_auth):
+    wsUrl += '?auth=' + tutum_auth
+else:
+    header.append("Authorization: Basic %s" % base64.b64encode("%s:%s" % (username, apikey)))
+
+
+ws = websocket.WebSocketApp(wsUrl,
+                            header=header,
                             on_message=on_message,
                             on_error=on_error,
                             on_close=on_close,
