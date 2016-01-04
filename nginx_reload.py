@@ -84,7 +84,7 @@ def on_open(ws):
 
 
 if (tutum_auth):
-    header = "Authorization" + tutum_auth
+    header = "Authorization: " + tutum_auth
 else:
     header = "Authorization: Basic %s" % base64.b64encode("%s:%s" % (username, apikey))
 
