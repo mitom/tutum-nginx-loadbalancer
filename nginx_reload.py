@@ -34,7 +34,7 @@ def rewrite_config():
             rendered = template.render(containers=containers.values())
             with open(nginx_config_dir + i, 'w') as f:
                 f.write(rendered)
-    sys.stdout.write("Rewrote configs, reloading nginx\n")
+    print "Rewrote configs, reloading nginx"
     call(["nginx", "-s", "reload"])
 
 def get_container(uuid):
@@ -57,7 +57,7 @@ def add_container(uri):
     if (grace_period):
         print "Waiting " + str(grace_period) + " seconds (grace period)"
         time.sleep(grace_period)
-    sys.stdout.write("Adding " + container.name + "\n")
+    print "Adding " + container.name
     rewrite_config()
 
 def remove_container(uri):
@@ -67,7 +67,7 @@ def remove_container(uri):
 
     container = containers[uri]
     del containers[uri]
-    sys.stdout.write("Removing " + container.name + "\n")
+    print "Removing " + container.name
 
     rewrite_config()
 
@@ -83,10 +83,10 @@ def on_error(ws, error):
     sys.stderr.write(error)
 
 def on_close(ws):
-    sys.stdout.write("### stream closed ###\n")
+    print "### stream closed ###"
 
 def on_open(ws):
-    sys.stdout.write("### stream opened ###\n")
+    print "### stream opened ###"
 
 
 if (tutum_auth):
@@ -108,8 +108,7 @@ for container in existing_containers:
     if container.state in ['Running', 'Starting', 'Creating']:
         containers[container.resource_uri] = container
 
-sys.stdout.write("Found " + str(len(containers)) + " containers\n")
+print "Found " + str(len(containers)) + " containers"
 rewrite_config()
-
 
 ws.run_forever()
