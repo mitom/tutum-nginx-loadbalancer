@@ -60,6 +60,7 @@ def remove_container(uri):
         return
 
 
+    container = containers[uri]
     del containers[uri]
     sys.stdout.write("Removing " + container.name + "\n")
 
