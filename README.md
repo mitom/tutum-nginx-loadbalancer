@@ -22,7 +22,6 @@ The files are interpretted as [mako](http://www.makotemplates.org/) templates, w
 The whole container object is accessible, as described in the [tutum api docs](https://docs.tutum.co/v2/api/#container).
 Every `.conf` file in `/opt/conf/` will be used.
 
-
 This is a simple example on how to create an upstream from your containers:
 
 ````
@@ -32,3 +31,5 @@ upstream backend {
 % endfor
 }
 ````
+
+Optionally, you may set `GRACE_PERIOD` to a number (of seconds) to wait before reloading nginx, to give your service some time to start.
