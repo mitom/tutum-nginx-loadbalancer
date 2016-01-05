@@ -13,11 +13,11 @@ RUN pip install python-tutum mako
 ADD https://github.com/chrismytton/shoreman/raw/master/shoreman.sh /bin/shoreman
 RUN chmod 0755 /bin/shoreman
 
-
-COPY conf /opt/
+COPY conf/ opt/conf/
 COPY Procfile /opt/
-Copy nginx_reload.py /opt/
+COPY nginx_reload.py /opt/
 
 WORKDIR /opt/
+
 
 CMD ["shoreman"]
