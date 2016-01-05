@@ -14,7 +14,7 @@ service_uuid = os.environ.get('LB_SERVICE')
 username = os.environ.get('TUTUM_USER')
 apikey = os.environ.get('TUTUM_APIKEY')
 tutum_auth = os.environ.get('TUTUM_AUTH')
-grace_period = os.environ.get('GRACE_PERIOD') or 0
+grace_period = float(os.environ.get('GRACE_PERIOD') or 0)
 
 if (not (username and apikey) and not tutum_auth):
     raise EnvironmentError('You should either give full access to this service, or provide TUTUM_USER and TUTUM_APIKEY as env variables')
@@ -54,8 +54,9 @@ def add_container(uri):
 
     container = get_container(get_container_uuid(uri))
     containers[uri] = container
-
-    time.sleep(grace_period)
+    if (grace_period):
+        print "Waiting " + str(grace_period) + " seconds (grace period)"
+        time.sleep(grace_period)
     sys.stdout.write("Adding " + container.name + "\n")
     rewrite_config()
 

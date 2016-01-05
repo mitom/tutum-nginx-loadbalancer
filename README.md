@@ -35,4 +35,4 @@ upstream backend {
 }
 ````
 
-Optionally, you may set `GRACE_PERIOD` to a number (of seconds) to wait before reloading nginx, to give your service some time to start.
+Optionally, you may set `GRACE_PERIOD` to a number (a float, really) of seconds to wait before reloading nginx, to give your service some time to start.
