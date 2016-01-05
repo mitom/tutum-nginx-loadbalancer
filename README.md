@@ -3,6 +3,9 @@
 The purpose of this image is to dynamically add/remove containers to/from nginx as they become available in tutum.
 It provides **NO** default configuration for nginx, but gives you the ability to write your own using simple templating.
 
+For this to have any meaning you must handle redeploying your containers in a way that they are never all down at the same time.
+Check out my [script](https://github.com/mitom/tutum-rolling-redeploy) for this issue.
+
 ## Usage
 
 First of, create the service you will want to load balance in tutum. No need to start it, just make sure it exists.
